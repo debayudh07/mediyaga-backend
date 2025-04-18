@@ -8,10 +8,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
+@Get('profile')
+async getProfile(@Request() req) {
+  // Assuming req.user contains the user ID in req.user.userId or req.user.id
+  const userId = req.user.userId || req.user.id;
+  return this.usersService.findById(userId);
+}
 
   @UseGuards(JwtAuthGuard)
   @Get()
